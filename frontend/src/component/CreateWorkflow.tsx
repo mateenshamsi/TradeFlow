@@ -7,11 +7,13 @@ interface NodeType {
   data:{
     type:"action"|"trigger",
     kind:"price-trigger"|"timer-trigger"|"hyperliquid"|"backpack"|"lighter",
-    label?:string,
+   
   },
+  label?:string,
   id:string,
   position:{x:number,y:number},
 }
+
 interface EdgeType {
   id:string,
   source:string,
@@ -41,8 +43,9 @@ export default function CreateWorkflow() {
          setNodes([...nodes,{
           id:`node-${nodes.length+1}`,
           position:{x:100,y:100},
-          data:{type:"trigger",kind:metadata.kind}
-         }])
+          data:{type:"trigger",kind:metadata.kind},
+          label:metadata.kind==="price-trigger"?`When ${metadata.asset} crosses $${metadata.price}`:`Every ${metadata.interval ||  'X'} minutes`,
+        }])
         }}/>
       }
       <ReactFlow
